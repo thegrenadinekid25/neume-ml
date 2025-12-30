@@ -1,0 +1,15 @@
+synthesis:
+  sample_rate: 44100
+  default_duration_sec: 3.0
+  default_velocity: 80
+  release_sec: 0.5
+
+  voice_ranges:
+    bass: [40, 60]     # E2 to C4
+    tenor: [48, 67]    # C3 to G4
+    alto: [55, 74]     # G3 to D5
+    soprano: [60, 79]  # C4 to G5
+
+  soundfont:
+    path: "data/soundfonts/FluidR3_GM.sf2"
+    choir_program: 52  # Choir Aahs

@@ -1,0 +1,55 @@
+{
+  "filename": "tallis_spem_in_alium.wav",
+  "duration_sec": 776.6842708333334,
+  "sample_rate": 48000,
+  "reverb": {
+    "rt60_estimate": 3.2220042950334276,
+    "early_decay_time": 9.989524401451007,
+    "clarity_c50": -9.49062728881836,
+    "wet_dry_estimate": 0.6075729024920633,
+    "confidence": 0.7365128702746431
+  },
+  "pitch": {
+    "vibrato_rate_hz": 6.25,
+    "vibrato_depth_cents": 11.364680731752903,
+    "pitch_stability_std_cents": 651.0869252215667,
+    "drift_cents_per_second": -0.7124420375225929,
+    "pitch_range_cents": 3181.953803453993,
+    "confidence": 0.1732673305053037
+  },
+  "spectral": {
+    "formant_freqs": [
+      744.0141920593085,
+      1668.4620472535735,
+      2695.8679094803597
+    ],
+    "formant_bandwidths": [
+      183.42328874622268,
+      351.8591192148745,
+      514.5799022614987
+    ],
+    "spectral_centroid_mean": 1927.565524319175,
+    "spectral_centroid_std": 1229.2829261371867,
+    "harmonic_to_noise_ratio": 3.585438700768096,
+    "spectral_flux_mean": 0.8279989361763,
+    "spectral_rolloff_mean": 3433.6835239928414,
+    "harmonic_peak_width_cents": 15.0,
+    "inharmonicity": 0.02,
+    "amplitude_modulation_depth": 0.1,
+    "estimated_pitch_scatter_cents": 10.0,
+    "confidence": 0.6900000000000002
+  },
+  "dynamics": {
+    "peak_db": -3.694028854370117,
+    "rms_db": -25.140554428100586,
+    "crest_factor_db": 21.44652557373047,
+    "dynamic_range_db": 31.1436543444344,
+    "lufs_integrated": -26.082347369530837,
+    "compression_estimate": "none",
+    "loudness_range_lu": 11.705599723241157
+  },
+  "metadata": {
+    "filepath": "/Users/connorspencer/Documents/1. Projects/chord AI/neume-ml/data/recordings/tallis_spem_in_alium.wav",
+    "channels_original": "mono (converted)"
+  }
+}

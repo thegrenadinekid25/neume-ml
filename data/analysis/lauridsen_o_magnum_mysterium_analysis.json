@@ -1,0 +1,55 @@
+{
+  "filename": "lauridsen_o_magnum_mysterium.wav",
+  "duration_sec": 385.32354166666664,
+  "sample_rate": 48000,
+  "reverb": {
+    "rt60_estimate": 2.9138240698787037,
+    "early_decay_time": 9.030917358198884,
+    "clarity_c50": -10.945385932922363,
+    "wet_dry_estimate": 0.5931059315507607,
+    "confidence": 0.7502230612053219
+  },
+  "pitch": {
+    "vibrato_rate_hz": 6.0,
+    "vibrato_depth_cents": 50.0,
+    "pitch_stability_std_cents": 399.6489069007901,
+    "drift_cents_per_second": -0.23573711163897787,
+    "pitch_range_cents": 1909.7622315113936,
+    "confidence": 0.3510887537385439
+  },
+  "spectral": {
+    "formant_freqs": [
+      579.8964112546877,
+      1346.996537507008,
+      2709.639841627084
+    ],
+    "formant_bandwidths": [
+      186.49686445975217,
+      353.8065219981706,
+      493.3883409543764
+    ],
+    "spectral_centroid_mean": 1014.7228519859019,
+    "spectral_centroid_std": 312.2064942805973,
+    "harmonic_to_noise_ratio": 4.628647318504264,
+    "spectral_flux_mean": 0.9302535653114319,
+    "spectral_rolloff_mean": 1675.2791438507254,
+    "harmonic_peak_width_cents": 61.46823145427847,
+    "inharmonicity": 0.8253854150117869,
+    "amplitude_modulation_depth": 0.4410887658596039,
+    "estimated_pitch_scatter_cents": 30.734115727139233,
+    "confidence": 0.8700000000000001
+  },
+  "dynamics": {
+    "peak_db": -7.354853630065918,
+    "rms_db": -24.782611846923828,
+    "crest_factor_db": 17.427757263183594,
+    "dynamic_range_db": 14.579238496730486,
+    "lufs_integrated": -26.06850036438475,
+    "compression_estimate": "light",
+    "loudness_range_lu": 9.689159669403747
+  },
+  "metadata": {
+    "filepath": "/Users/connorspencer/Documents/1. Projects/chord AI/neume-ml/data/recordings/lauridsen_o_magnum_mysterium.wav",
+    "channels_original": "mono (converted)"
+  }
+}

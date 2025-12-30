@@ -1,0 +1,55 @@
+{
+  "filename": "bach_mass_b_minor_kyrie.wav",
+  "duration_sec": 597.3913958333334,
+  "sample_rate": 48000,
+  "reverb": {
+    "rt60_estimate": 2.698373575954407,
+    "early_decay_time": 1.3491867879772035,
+    "clarity_c50": -10.004765510559082,
+    "wet_dry_estimate": 0.575869892036817,
+    "confidence": 0.7540865021796035
+  },
+  "pitch": {
+    "vibrato_rate_hz": 6.54296875,
+    "vibrato_depth_cents": 13.749950438173292,
+    "pitch_stability_std_cents": 587.1649724983045,
+    "drift_cents_per_second": -0.5690193900731759,
+    "pitch_range_cents": 2574.862311367533,
+    "confidence": 0.3015394963665794
+  },
+  "spectral": {
+    "formant_freqs": [
+      621.427014578141,
+      1588.7109591889466,
+      2627.215669993643
+    ],
+    "formant_bandwidths": [
+      322.88897753310033,
+      428.1282152972417,
+      512.9073667009211
+    ],
+    "spectral_centroid_mean": 1250.831026289539,
+    "spectral_centroid_std": 355.77162844995826,
+    "harmonic_to_noise_ratio": 2.786227179555273,
+    "spectral_flux_mean": 0.7902973890304565,
+    "spectral_rolloff_mean": 2302.3032097422165,
+    "harmonic_peak_width_cents": 37.54616429046655,
+    "inharmonicity": 0.3153833598148815,
+    "amplitude_modulation_depth": 0.3863711357116699,
+    "estimated_pitch_scatter_cents": 18.773082145233275,
+    "confidence": 0.8700000000000001
+  },
+  "dynamics": {
+    "peak_db": -4.115969657897949,
+    "rms_db": -21.29419708251953,
+    "crest_factor_db": 17.178226470947266,
+    "dynamic_range_db": 18.145037550843828,
+    "lufs_integrated": -22.964685081629646,
+    "compression_estimate": "light",
+    "loudness_range_lu": 6.264170967578536
+  },
+  "metadata": {
+    "filepath": "/Users/connorspencer/Documents/1. Projects/chord AI/neume-ml/data/recordings/bach_mass_b_minor_kyrie.wav",
+    "channels_original": "mono (converted)"
+  }
+}

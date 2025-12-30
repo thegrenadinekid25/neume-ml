@@ -1,0 +1,45 @@
+{
+  "reverb": {
+    "rt60_range_sec": [
+      1.2806471342561954,
+      3.866405154040113
+    ],
+    "wet_dry_range": [
+      0.388064719386084,
+      0.7075729024920633
+    ]
+  },
+  "pitch": {
+    "vibrato_rate_range_hz": [
+      4.578125,
+      7.04296875
+    ],
+    "vibrato_depth_range_cents": [
+      20,
+      65.0
+    ],
+    "pitch_scatter_std_cents": [
+      7.0,
+      15.0
+    ],
+    "harmonic_peak_width_cents": [
+      15.0,
+      15.0
+    ],
+    "am_depth_range": [
+      0.1,
+      0.1
+    ]
+  },
+  "dynamics": {
+    "target_crest_factor_range_db": [
+      15.178226470947266,
+      23.719369888305664
+    ],
+    "target_lufs_range": [
+      -32.89265568878049,
+      -19.964685081629646
+    ]
+  },
+  "description": "Augmentation parameters derived from acoustic analysis of target recordings."
+}

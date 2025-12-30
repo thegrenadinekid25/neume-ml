@@ -1,0 +1,55 @@
+{
+  "filename": "whitacre_lux_aurumque.wav",
+  "duration_sec": 260.608,
+  "sample_rate": 48000,
+  "reverb": {
+    "rt60_estimate": 1.600808917820244,
+    "early_decay_time": 0.800404458910122,
+    "clarity_c50": -18.997867584228516,
+    "wet_dry_estimate": 0.488064719386084,
+    "confidence": 0.887359708430786
+  },
+  "pitch": {
+    "vibrato_rate_hz": 5.078125,
+    "vibrato_depth_cents": 21.84657625038534,
+    "pitch_stability_std_cents": 394.68020889093907,
+    "drift_cents_per_second": 0.14874138040846063,
+    "pitch_range_cents": 1746.1207339377154,
+    "confidence": 0.2648467797282688
+  },
+  "spectral": {
+    "formant_freqs": [
+      359.3919800254227,
+      1135.6862104357754,
+      2696.6982585527603
+    ],
+    "formant_bandwidths": [
+      217.4009436559329,
+      502.71527027313044,
+      591.6079209649386
+    ],
+    "spectral_centroid_mean": 1083.512884674586,
+    "spectral_centroid_std": 502.8377422704067,
+    "harmonic_to_noise_ratio": 3.036803449183003,
+    "spectral_flux_mean": 0.7127081155776978,
+    "spectral_rolloff_mean": 1401.5348005640612,
+    "harmonic_peak_width_cents": 15.0,
+    "inharmonicity": 0.02,
+    "amplitude_modulation_depth": 0.1,
+    "estimated_pitch_scatter_cents": 10.0,
+    "confidence": 0.6900000000000002
+  },
+  "dynamics": {
+    "peak_db": -6.485848903656006,
+    "rms_db": -28.205219268798828,
+    "crest_factor_db": 21.719369888305664,
+    "dynamic_range_db": 27.29053736606486,
+    "lufs_integrated": -29.892655688780497,
+    "compression_estimate": "none",
+    "loudness_range_lu": 20.61891270910723
+  },
+  "metadata": {
+    "filepath": "/Users/connorspencer/Documents/1. Projects/chord AI/neume-ml/data/recordings/whitacre_lux_aurumque.wav",
+    "channels_original": "mono (converted)"
+  }
+}
