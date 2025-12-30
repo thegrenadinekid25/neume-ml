@@ -33,11 +33,11 @@
     "harmonic_to_noise_ratio": 3.585438700768096,
     "spectral_flux_mean": 0.8279989361763,
     "spectral_rolloff_mean": 3433.6835239928414,
-    "harmonic_peak_width_cents": 15.0,
-    "inharmonicity": 0.02,
-    "amplitude_modulation_depth": 0.1,
-    "estimated_pitch_scatter_cents": 10.0,
-    "confidence": 0.6900000000000002
+    "harmonic_peak_width_cents": 97.10613100111075,
+    "inharmonicity": 1.0,
+    "amplitude_modulation_depth": 0.4639420211315155,
+    "estimated_pitch_scatter_cents": 48.55306550055538,
+    "confidence": 0.8700000000000001
   },
   "dynamics": {
     "peak_db": -3.694028854370117,
