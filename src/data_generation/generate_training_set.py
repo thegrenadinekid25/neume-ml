@@ -3,13 +3,16 @@
 This module generates synthetic training data for chord recognition ML models.
 It samples from the complete parameter space of chord voicing to create diverse,
 realistic training examples with full metadata.
+
+Supports optional audio augmentation to transform clean FluidSynth output into
+realistic choral recordings with vibrato, pitch scatter, reverb, and dynamics.
 """
 
 import argparse
 import json
 import logging
 import random
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -18,6 +21,7 @@ import soundfile
 
 from src.synthesis import FluidSynthRenderer
 from src.utils.audio import load_config, resolve_soundfont_path
+from src.augmentation import AugmentationPipeline, AugmentationConfig
 from .voicing import (
     BASS_NOTE_TYPES,
     BASS_NOTE_WEIGHTS,
@@ -67,6 +71,7 @@ class SampleMetadata:
     nct_density: str
     midi_notes: List[int]
     filename: str
+    augmentation: Optional[Dict[str, Any]] = None  # Augmentation config if applied
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
@@ -118,10 +123,10 @@ def generate_sample(seed: Optional[int] = None) -> Tuple[SampleMetadata, List[Li
 
     # Get chord intervals and pitch classes
     intervals = CHORD_TYPES[chord_type]
-    pitch_classes = get_pitch_classes(root, intervals)
+    pitch_classes = get_pitch_classes(chord_type, root)
 
     # Select bass note based on inversion type
-    bass_note = select_bass_note(root, pitch_classes, inversion_type)
+    bass_note = select_bass_note(chord_type, root, inversion_type, intervals)
 
     # Sample shell strategy
     shell_strategy = random.choice(list(SHELL_STRATEGIES.keys()))
@@ -145,7 +150,7 @@ def generate_sample(seed: Optional[int] = None) -> Tuple[SampleMetadata, List[Li
 
     # Distribute voices across the selected pitches
     voice_notes = distribute_voices(
-        selected_pitches, num_parts, voicing_style=voicing_style
+        selected_pitches, bass_note, num_parts, style=voicing_style
     )
 
     # Sample duration
@@ -218,6 +223,9 @@ def generate_training_set(
     output_dir: str = "data/output/training_samples",
     config_path: str = "configs/synthesis.yaml",
     seed: Optional[int] = None,
+    apply_augmentation: bool = True,
+    augmentation_config: Optional[Dict[str, Any]] = None,
+    ir_directory: Optional[str] = None,
 ) -> List[SampleMetadata]:
     """
     Generate a complete training set of chord samples.
@@ -227,14 +235,18 @@ def generate_training_set(
     2. Initializes the FluidSynth renderer
     3. Generates num_samples training samples
     4. Renders each sample to audio
-    5. Saves audio as WAV and metadata as JSON
-    6. Returns list of successfully generated samples
+    5. Optionally applies augmentation (reverb, vibrato, etc.)
+    6. Saves audio as WAV and metadata as JSON
+    7. Returns list of successfully generated samples
 
     Args:
         num_samples: Number of samples to generate
         output_dir: Directory to save output samples
         config_path: Path to synthesis configuration YAML
         seed: Random seed for reproducibility
+        apply_augmentation: Whether to apply audio augmentation
+        augmentation_config: Fixed augmentation config dict (random if None)
+        ir_directory: Path to impulse response files for convolution reverb
 
     Returns:
         List of SampleMetadata objects for successfully generated samples
@@ -266,14 +278,23 @@ def generate_training_set(
     sample_rate = config.get("synthesis", {}).get("sample_rate", 44100)
     renderer = FluidSynthRenderer(soundfont_path, sample_rate=sample_rate)
 
+    # Log augmentation status
+    if apply_augmentation:
+        logger.info("Augmentation enabled - samples will be processed with reverb, vibrato, etc.")
+        if ir_directory:
+            logger.info(f"Using impulse responses from: {ir_directory}")
+    else:
+        logger.info("Augmentation disabled - generating clean samples")
+
     successful_samples = []
     failed_samples = 0
 
     try:
         for sample_idx in range(num_samples):
             try:
-                # Generate sample
-                metadata, voice_events = generate_sample(seed=seed)
+                # Generate sample with unique seed per sample
+                sample_seed = seed + sample_idx if seed is not None else None
+                metadata, voice_events = generate_sample(seed=sample_seed)
 
                 # Generate unique filename
                 sample_id = f"{sample_idx:06d}"
@@ -290,6 +311,28 @@ def generate_training_set(
                     release_sec=0.5,
                 )
 
+                # Apply augmentation if enabled
+                if apply_augmentation:
+                    # Create augmentation config
+                    if augmentation_config is not None:
+                        aug_config = AugmentationConfig.from_dict(augmentation_config)
+                    else:
+                        # Random config for each sample
+                        aug_seed = seed + sample_idx if seed is not None else None
+                        aug_config = AugmentationConfig.random(seed=aug_seed)
+
+                    # Set IR directory if provided
+                    if ir_directory:
+                        aug_config.ir_directory = ir_directory
+                        aug_config.use_convolution_reverb = True
+
+                    # Apply augmentation pipeline
+                    pipeline = AugmentationPipeline(aug_config)
+                    audio = pipeline.process_mixed(audio, sample_rate)
+
+                    # Store augmentation config in metadata
+                    metadata.augmentation = aug_config.to_dict()
+
                 # Save audio WAV file
                 audio_path = output_path / audio_filename
                 soundfile.write(audio_path, audio, sample_rate)
@@ -303,8 +346,9 @@ def generate_training_set(
 
                 # Log progress
                 if (sample_idx + 1) % 10 == 0:
+                    aug_status = "augmented" if apply_augmentation else "clean"
                     logger.info(
-                        f"Generated {sample_idx + 1}/{num_samples} samples "
+                        f"Generated {sample_idx + 1}/{num_samples} {aug_status} samples "
                         f"({len(successful_samples)} successful, {failed_samples} failed)"
                     )
 
@@ -316,8 +360,9 @@ def generate_training_set(
                 continue
 
         # Final summary
+        aug_status = "augmented" if apply_augmentation else "clean"
         logger.info(
-            f"Training set generation complete: {len(successful_samples)} successful, "
+            f"Training set generation complete: {len(successful_samples)} {aug_status} samples, "
             f"{failed_samples} failed"
         )
         logger.info(f"Output saved to {output_dir}")
@@ -358,8 +403,41 @@ def main():
         default=None,
         help="Random seed for reproducibility (default: None)",
     )
+    parser.add_argument(
+        "--no-augmentation",
+        action="store_true",
+        help="Disable augmentation (generate clean samples)",
+    )
+    parser.add_argument(
+        "--augmentation-config",
+        type=str,
+        default=None,
+        help="Path to JSON file with fixed augmentation parameters",
+    )
+    parser.add_argument(
+        "--ir-directory",
+        type=str,
+        default=None,
+        help="Path to directory with impulse response WAV files for convolution reverb",
+    )
+    parser.add_argument(
+        "--augmentation-preset",
+        type=str,
+        choices=["minimal", "moderate", "heavy", "cathedral"],
+        default=None,
+        help="Use a preset augmentation configuration",
+    )
 
     args = parser.parse_args()
+
+    # Load augmentation config if specified
+    augmentation_config = None
+    if args.augmentation_config:
+        with open(args.augmentation_config) as f:
+            augmentation_config = json.load(f)
+    elif args.augmentation_preset:
+        preset_config = AugmentationConfig.from_preset(args.augmentation_preset)
+        augmentation_config = preset_config.to_dict()
 
     try:
         generate_training_set(
@@ -367,6 +445,9 @@ def main():
             output_dir=args.output_dir,
             config_path=args.config,
             seed=args.seed,
+            apply_augmentation=not args.no_augmentation,
+            augmentation_config=augmentation_config,
+            ir_directory=args.ir_directory,
         )
     except KeyboardInterrupt:
         logger.info("Generation interrupted by user")

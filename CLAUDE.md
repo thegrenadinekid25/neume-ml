@@ -49,13 +49,23 @@ neume-ml/
 │   │   ├── chord_types.py      # ChordSpec, ChordQuality, pitch classes
 │   │   ├── voicing.py          # SATBVoicing, voice leading rules
 │   │   └── fluidsynth_renderer.py  # Audio rendering engine
+│   ├── augmentation/           # Audio augmentation pipeline
+│   │   ├── pipeline.py         # Main orchestrator, AugmentationConfig
+│   │   ├── pitch_scatter.py    # Per-voice pitch detuning
+│   │   ├── vibrato.py          # LFO pitch modulation
+│   │   ├── amplitude_modulation.py  # Beating/tremolo effects
+│   │   ├── reverb.py           # Algorithmic + convolution reverb
+│   │   ├── dynamics.py         # LUFS normalization, crest factor
+│   │   └── lowpass.py          # Variable brightness filter
 │   └── utils/
 │       └── audio.py            # Config loading, path utilities
 ├── data/
 │   ├── soundfonts/             # .sf2 files (gitignored)
+│   ├── impulse_responses/      # IR files for convolution reverb
 │   └── output/                 # Generated samples (gitignored)
 ├── scripts/
-│   └── generate_test_samples.py
+│   ├── generate_test_samples.py
+│   └── test_augmentation.py    # A/B comparison tests
 └── configs/
     └── synthesis.yaml          # Voice ranges, sample rate, soundfont config
 ```
@@ -109,9 +119,42 @@ For significant features or refactors, use this Claude Code workflow:
 
 This maximizes quality (Opus planning) while minimizing cost (Haiku execution).
 
+## Augmentation Pipeline
+
+Transforms clean FluidSynth output into realistic choral recordings. Parameters calibrated from professional recordings (Lauridsen, Tallis, Whitacre, Bach).
+
+**Effects chain:**
+1. **Pitch scatter** (16-50 cents) - Per-voice detuning for ensemble sound
+2. **Vibrato** (4.6-7 Hz, 20-65 cents) - LFO pitch modulation with delayed onset
+3. **Amplitude modulation** (39-48% depth) - Beating from phase interference
+4. **Low-pass filter** (5-20 kHz) - Variable brightness control
+5. **Reverb** (RT60 1.3-3.9s, 39-71% wet) - Algorithmic or convolution
+6. **Dynamics** (LUFS -33 to -20) - Loudness normalization
+
+**Usage:**
+```python
+from src.augmentation import AugmentationPipeline, AugmentationConfig
+
+# Random config within calibrated ranges
+config = AugmentationConfig.random(seed=42)
+
+# Or use presets: "minimal", "moderate", "heavy", "cathedral"
+config = AugmentationConfig.from_preset("cathedral")
+
+pipeline = AugmentationPipeline(config)
+augmented = pipeline.process_mixed(audio, sample_rate)
+```
+
+**Test augmentation:**
+```bash
+python scripts/test_augmentation.py
+# Listen to files in data/test_augmentation/
+```
+
 ## Notes
 
 - Voicing is deterministic given a seed (for reproducibility)
 - FluidSynth uses 4 MIDI channels (one per voice) to avoid voice stealing
 - Choir Aahs (program 52) is default; Voice Oohs (53) also available
 - Audio normalized to -1 to 1 float32
+- Augmentation pipeline is reproducible with seed parameter

@@ -20,6 +20,8 @@ data/output/
 data/recordings/*.wav
 data/recordings/*.mp3
 data/recordings/*.flac
+data/test_augmentation/
+data/*.mid
 
 # IDE
 .idea/
