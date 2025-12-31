@@ -29,15 +29,21 @@ CHORD_FREQUENCY: Dict[str, float] = {
     "dom7": 0.12,
     "maj7": 0.08,
     "min7": 0.10,
+    "minmaj7": 0.01,
     "half_dim7": 0.03,
     "dim7": 0.02,
     "aug7": 0.01,
+
+    # Sixth chords
+    "6": 0.02,
+    "m6": 0.01,
 
     # Extended chords
     "maj9": 0.04,
     "min9": 0.03,
     "dom9": 0.05,
     "dom11": 0.02,
+    "min11": 0.02,
     "dom13": 0.02,
     "maj13": 0.02,
 
@@ -46,19 +52,26 @@ CHORD_FREQUENCY: Dict[str, float] = {
     "sus4": 0.04,
     "add9": 0.02,
     "add11": 0.01,
+    "madd9": 0.01,
 
     # Jazz extensions
     "maj7#11": 0.02,
     "dom7#11": 0.02,
     "dom7b9": 0.02,
     "dom7sharp9": 0.02,
+    "dom7b5": 0.01,
 
     # Sparse/minimal
     "power_chord": 0.02,
     "dyad": 0.01,
 
-    # Experimental/rare
+    # Quartal harmony
+    "quartal3": 0.01,
+    "quartal4": 0.01,
+
+    # Experimental/clusters
     "cluster_chromatic": 0.01,
+    "cluster_whole": 0.01,
     "whole_tone": 0.01,
 }
 
