@@ -29,7 +29,7 @@ CHORD_FREQUENCY: Dict[str, float] = {
     "dom7": 0.12,
     "maj7": 0.08,
     "min7": 0.10,
-    "min7b5": 0.03,
+    "half_dim7": 0.03,
     "dim7": 0.02,
     "aug7": 0.01,
 
@@ -51,14 +51,14 @@ CHORD_FREQUENCY: Dict[str, float] = {
     "maj7#11": 0.02,
     "dom7#11": 0.02,
     "dom7b9": 0.02,
-    "dom7#9": 0.02,
+    "dom7sharp9": 0.02,
 
     # Sparse/minimal
     "power_chord": 0.02,
     "dyad": 0.01,
 
     # Experimental/rare
-    "chromatic_cluster": 0.01,
+    "cluster_chromatic": 0.01,
     "whole_tone": 0.01,
 }
 

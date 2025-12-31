@@ -17,13 +17,14 @@ CHORD_TYPES: Dict[str, List[int]] = {
     "diminished": [0, 3, 6],
     "augmented": [0, 4, 8],
 
-    # 7ths (6)
+    # 7ths (7)
     "maj7": [0, 4, 7, 11],
     "dom7": [0, 4, 7, 10],
     "min7": [0, 3, 7, 10],
     "minmaj7": [0, 3, 7, 11],
     "half_dim7": [0, 3, 6, 10],
     "dim7": [0, 3, 6, 9],
+    "aug7": [0, 4, 8, 10],
 
     # Suspended (2)
     "sus2": [0, 2, 7],
@@ -51,11 +52,20 @@ CHORD_TYPES: Dict[str, List[int]] = {
     "dom7b5": [0, 4, 6, 10],
     "dom7sharp5": [0, 4, 8, 10],
 
+    # Lydian extensions (2)
+    "maj7#11": [0, 4, 7, 11, 18],
+    "dom7#11": [0, 4, 7, 10, 18],
+
     # Special (4)
     "quartal3": [0, 5, 10],
     "quartal4": [0, 5, 10, 15],
     "cluster_whole": [0, 2, 4],
     "cluster_chromatic": [0, 1, 2],
+
+    # Sparse/Experimental (3)
+    "power_chord": [0, 7],
+    "dyad": [0, 7],
+    "whole_tone": [0, 2, 4, 6, 8, 10],
 }
 
 # Root note names (chromatic scale)
